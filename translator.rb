@@ -76,17 +76,27 @@ end
 
 # write the Binary
 output << "Binary\n    "
+iter = 0
 colorNum.times do |color|
     nodesNum.times do |node|
         output << "x#{node+1}#{color+1} "
+        iter = iter + 1
+        if iter % 10 == 0
+            output << "\n    "
+        end
     end
 end
+output << "\n"
 colorNum.times do |color|
     output << "w#{color+1} "
+    if (color+1) % 10 == 0
+        output << "\n    "
+    end
 end
 output << "\nEnd"
 
-#puts output
+# write output to file
 File.open( "#{outputFile}", 'w' ) { |file| file.write( output ) }
 
 puts " > SUCCESS: cplex problem successfully written to  << #{outputFile} >>\n\n"
+
