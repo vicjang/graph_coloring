@@ -12,7 +12,7 @@ else
     colorNum = ARGV[1].to_i
     puts " > Upper bound of colors :   #{colorNum}\n\n"
     if ARGV[2] == nil
-        outputFile = ARGV[0].split(".")[0].concat(".lp")
+        outputFile = ARGV[0].split(".")[0].concat("-#{colorNum}color.lp")
     else
         outputFile = ARGV[2]
     end
@@ -46,7 +46,7 @@ File.readlines(file).each_with_index do |line, idx|
             condition_count = condition_count + 1
 
             colorNum.times do |color|
-                output << "x#{node+1}#{color+1} + "
+                output << "x#{node+1}_#{color+1} + "
             end
 
             output.chomp!(" + ")
@@ -58,7 +58,7 @@ File.readlines(file).each_with_index do |line, idx|
         colorNum.times do |color|
             output << "    c#{condition_count}:  "
             condition_count = condition_count + 1
-            output << "x#{ab[0]}#{color+1} + x#{ab[1]}#{color+1} <= 1\n"
+            output << "x#{ab[0]}_#{color+1} + x#{ab[1]}_#{color+1} <= 1\n"
         end
     end
 end
@@ -69,7 +69,7 @@ nodesNum.times do |node|
     colorNum.times do |color|
         output << "    c#{condition_count}:  "
         condition_count = condition_count + 1
-        output << "x#{node+1}#{color+1} - w#{color+1} <= 0\n"
+        output << "x#{node+1}_#{color+1} - w#{color+1} <= 0\n"
     end
 end
 
@@ -79,14 +79,14 @@ output << "Binary\n    "
 iter = 0
 colorNum.times do |color|
     nodesNum.times do |node|
-        output << "x#{node+1}#{color+1} "
+        output << "x#{node+1}_#{color+1} "
         iter = iter + 1
         if iter % 10 == 0
             output << "\n    "
         end
     end
 end
-output << "\n"
+output << "\n    "
 colorNum.times do |color|
     output << "w#{color+1} "
     if (color+1) % 10 == 0
